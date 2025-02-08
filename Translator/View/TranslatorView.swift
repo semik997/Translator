@@ -338,6 +338,7 @@ class TranslatorView: UIView {
         delegate?.didTapSettingButton()
     }
     
+    // Setup background
     func setGradientBackground() {
         let gradientLayer = CAGradientLayer()
         
@@ -350,5 +351,15 @@ class TranslatorView: UIView {
         
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    // Update speak button after pressed
+    func updateSpeakButton(isRecording: Bool) {
+        var config = speakButton.configuration
+        config?.image = UIImage(systemName: isRecording ? "microphone.and.signal.meter" : "microphone.badge.ellipsis")
+        config?.title = isRecording ? "Recording....." : "Start Speak"
+        speakButton.configuration = config
+    }
+        
+        
     
 }
