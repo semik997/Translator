@@ -10,7 +10,7 @@ import UIKit
 protocol TranslatorViewDelegate: AnyObject {
     func didTapDogButton()
     func didTapCatButton()
-    func didUpdateLabels()
+    func didTapSwitchButton()
     func didTapSpeakButton()
     func didTapMainButton()
     func didTapSettingButton()
@@ -136,7 +136,6 @@ class TranslatorView: UIView {
         config.imagePlacement = .top
         config.imagePadding = 10
         config.baseForegroundColor = .black
-        //        config.title = "Translator"
         config.attributedTitle = AttributedString("Translator", attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 12)]))
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -150,7 +149,6 @@ class TranslatorView: UIView {
         config.imagePlacement = .top
         config.imagePadding = 10
         config.baseForegroundColor = .black
-        //        config.title = "Settings"
         config.attributedTitle = AttributedString("Settings", attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 12)]))
         button.configuration = config
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -307,7 +305,7 @@ class TranslatorView: UIView {
     }
     
     @objc private func switchButtonTapped() {
-        delegate?.didUpdateLabels()
+        delegate?.didTapSwitchButton()
     }
     
     @objc private func speakButtonTapped() {

@@ -7,16 +7,15 @@
 
 import UIKit
 
-class TranslatorViewController: UIViewController, TranslatorViewDelegate {
+class TranslatorViewController: UIViewController, SwitchManagerDelegate, TranslatorViewDelegate {
     
-    
-//    private let switchManager = SwitchManager()
+    private let switchManager = SwitchManager()
     private let translatorView = TranslatorView()
-    var isSwitched: Bool = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view = translatorView
+        switchManager.delegate = self
         translatorView.delegate = self
         translatorView.updateButtonStates(selectedPet: "dog")
         overrideUserInterfaceStyle = .light
@@ -24,15 +23,14 @@ class TranslatorViewController: UIViewController, TranslatorViewDelegate {
     
     
     
-    func didUpdateLabels() {
-        
-        isSwitched.toggle()
-        let humanText = isSwitched ? "PET" : "HUMAN"
-        let petText = isSwitched ? "HUMAN" : "PET"
+    func didTapSwitchButton() {
+        switchManager.toggleSwitch()
+    }
+    
+    func didUpdateLabels(humanText: String, petText: String) {
         translatorView.humanLabel.text = humanText
         translatorView.petLabel.text = petText
     }
-    
     
     func didTapDogButton() {
         translatorView.petImageView.image = UIImage(named: "dog.png")
