@@ -63,6 +63,10 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     
     // Update UI when recording stops
     func didStopRecording() {
+        translatorView.showTranslationProcess {
+            Router.showResultScreen(from: self, with: self.translatorView.petImageView.image, text: self.getTranslatedText())
+            
+        }
         translatorView.updateSpeakButton(isRecording: false)
     }
     
@@ -74,7 +78,10 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
         
     }
     
-    
+    private func getTranslatedText() -> String {
+        let exampleText = ["Hello", "What are you doing human?", "I'm hungry!!!", "I',m don'n understand you"]
+        return exampleText.randomElement() ?? "Something went wrong..."
+    }
     
     // Show alert to go to settings if access is denied
     internal func showSettingAlert() {

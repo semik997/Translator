@@ -256,7 +256,7 @@ class TranslatorView: UIView {
             speakStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             speakStackView.widthAnchor.constraint(equalToConstant: 320),
             speakStackView.heightAnchor.constraint(equalToConstant: 176),
-
+            
             speakButton.widthAnchor.constraint(equalToConstant: 178),
             speakButton.heightAnchor.constraint(equalToConstant: 176),
             
@@ -288,7 +288,7 @@ class TranslatorView: UIView {
             dogBackgroundView.topAnchor.constraint(equalTo: catBackgroundView.bottomAnchor, constant: 10),
             
             
-            petImageView.topAnchor.constraint(equalTo: speakButton.bottomAnchor, constant: 40),
+            petImageView.topAnchor.constraint(equalTo: speakButton.bottomAnchor, constant: 60),
             petImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             petImageView.widthAnchor.constraint(equalToConstant: 184),
             petImageView.heightAnchor.constraint(equalToConstant: 184),
@@ -359,7 +359,32 @@ class TranslatorView: UIView {
         config?.title = isRecording ? "Recording....." : "Start Speak"
         speakButton.configuration = config
     }
+    
+    func showTranslationProcess(completion: @escaping() -> Void) {
+        titleLabel.isHidden = true
+        speakButton.isHidden = true
+        labelStackView.isHidden = true
+        petStackView.isHidden = true
+        dogButton.isHidden = true
+        catButton.isHidden = true
+        speakStackView.isHidden = true
         
+        let translationLabel = UILabel()
+        translationLabel.text = "Process of translation..."
+        translationLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        translationLabel.textAlignment = .center
+        translationLabel.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(translationLabel)
         
+        NSLayoutConstraint.activate([
+            translationLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            translationLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            completion()
+        }
+    }
+    
     
 }
