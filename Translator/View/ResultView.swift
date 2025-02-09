@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol ResultViewDelegate: AnyObject {
+    func navigateToMainScreen()
+}
+
 class ResultView: UIView {
+    
+    weak var delegate: ResultViewDelegate?
     
     let animalImageView: UIImageView = {
        let imageView = UIImageView()
@@ -34,6 +40,8 @@ class ResultView: UIView {
         textView.textAlignment = .center
         textView.isScrollEnabled = false
         textView.isEditable = false
+        textView.isSelectable = true
+        textView.isUserInteractionEnabled = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 80, left: 20, bottom: 80, right: 20)
         return textView
@@ -41,11 +49,18 @@ class ResultView: UIView {
     
     let retryButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Repeat", for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 10
+        var config = UIButton.Configuration.plain()
+        config.image = UIImage(systemName: "arrow.trianglehead.clockwise")
+        config.attributedTitle = AttributedString(" Repeat", attributes: AttributeContainer([.font: UIFont.boldSystemFont(ofSize: 18)]))
+        config.baseForegroundColor = .black
+        
+        button.configuration = config
+        button.backgroundColor = UIColor(hex: "#D6DCFF")
+        button.layer.cornerRadius = 16
+        button.layer.shadowOpacity = 0.2
+        button.layer.shadowRadius = 4
+        button.layer.shadowOffset = CGSize(width: 0, height: 2)
+        button.isHidden = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -70,6 +85,9 @@ class ResultView: UIView {
         addSubview(animalImageView)
         addSubview(retryButton)
         
+        dialogBox.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(textViewTapped)))
+        retryButton.addTarget(self, action: #selector(retryButtonTapped), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
             
             bubbleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 229),
@@ -87,10 +105,10 @@ class ResultView: UIView {
             animalImageView.widthAnchor.constraint(equalToConstant: 184),
             animalImageView.heightAnchor.constraint(equalToConstant: 184),
             
-            retryButton.topAnchor.constraint(equalTo: animalImageView.bottomAnchor, constant: 30),
+            retryButton.topAnchor.constraint(equalTo: topAnchor, constant: 317),
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.widthAnchor.constraint(equalToConstant: 150),
-            retryButton.heightAnchor.constraint(equalToConstant: 50)
+            retryButton.widthAnchor.constraint(equalToConstant: 291),
+            retryButton.heightAnchor.constraint(equalToConstant: 54)
             
         ])
     }
@@ -117,6 +135,16 @@ class ResultView: UIView {
         gradientLayer.frame = self.bounds
         
         self.layer.insertSublayer(gradientLayer, at: 0)
+    }
+    
+    @objc private func textViewTapped() {
+        dialogBox.isHidden = true
+        bubbleImageView.isHidden = true
+        retryButton.isHidden = false
+    }
+    
+    @objc private func retryButtonTapped() {
+        delegate?.navigateToMainScreen()
     }
     
 }
