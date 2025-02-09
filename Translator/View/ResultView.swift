@@ -9,15 +9,6 @@ import UIKit
 
 class ResultView: UIView {
     
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Result"
-        label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
     let animalImageView: UIImageView = {
        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
@@ -74,15 +65,12 @@ class ResultView: UIView {
     }
     
     private func setupUI() {
-        addSubview(titleLabel)
         addSubview(bubbleImageView)
         addSubview(dialogBox)
         addSubview(animalImageView)
         addSubview(retryButton)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             bubbleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 229),
             bubbleImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
