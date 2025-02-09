@@ -17,4 +17,12 @@ class Router {
         viewController.navigationController?.pushViewController(resultVC, animated: true)
     }
     
+    static func showSettings(from viewController: UIViewController) {
+        
+        let settingsVC = SettingsViewController()
+        settingsVC.modalPresentationStyle = .overFullScreen
+        settingsVC.modalTransitionStyle = .coverVertical
+        viewController.present(settingsVC, animated: true, completion: nil)
+    }
+    
 }

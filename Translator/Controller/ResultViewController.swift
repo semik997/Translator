@@ -27,7 +27,6 @@ class ResultViewController: UIViewController, ResultViewDelegate {
         
     }
     
-
     private func setupCustomBackButton() {
         let closeButton = UIButton(type: .custom)
         let image = UIImage(systemName: "xmark.circle")?.withConfiguration(UIImage.SymbolConfiguration(pointSize: 20, weight: .bold))

@@ -13,7 +13,7 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     private let switchManager = SwitchManager()
     private let translatorView = TranslatorView()
     private let microphoneManager = MicrophoneManager()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view = translatorView
@@ -74,7 +74,7 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     }
     
     func didTapSettingButton() {
-        
+        Router.showSettings(from: self)
     }
     
     // Call alert to go to settings if access is denied
@@ -82,6 +82,5 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
         translatorView.showSettingAlert(in: self)
     }
     
-
 }
 

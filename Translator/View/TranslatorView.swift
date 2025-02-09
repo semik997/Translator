@@ -151,6 +151,7 @@ class TranslatorView: UIView {
         config.baseForegroundColor = .black
         config.attributedTitle = AttributedString("Settings", attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 12)]))
         button.configuration = config
+        button.alpha = 0.4
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -246,7 +247,7 @@ class TranslatorView: UIView {
     // Constraints settting
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             labelStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
@@ -319,7 +320,7 @@ class TranslatorView: UIView {
     @objc private func selectDog() {
         delegate?.didTapDogButton()
     }
-        
+    
     @objc private func mainButtonTapped() {
         delegate?.didTapMainButton()
     }
@@ -374,7 +375,7 @@ class TranslatorView: UIView {
         
         viewController.present(alert, animated: true)
     }
-
+    
     
     // Update speak button after pressed
     func updateSpeakButton(isRecording: Bool) {
