@@ -319,17 +319,7 @@ class TranslatorView: UIView {
     @objc private func selectDog() {
         delegate?.didTapDogButton()
     }
-    
-    func updateButtonStates(selectedPet: String) {
-        if selectedPet == "dog" {
-            dogButton.alpha = 1.0
-            catButton.alpha = 0.4
-        } else {
-            dogButton.alpha = 0.4
-            catButton.alpha = 1.0
-        }
-    }
-    
+        
     @objc private func mainButtonTapped() {
         delegate?.didTapMainButton()
     }
@@ -351,6 +341,40 @@ class TranslatorView: UIView {
         
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
+    
+    // Shade of your pet's choice
+    func updateButtonStates(selectedPet: String) {
+        if selectedPet == "dog" {
+            dogButton.alpha = 1.0
+            catButton.alpha = 0.4
+        } else {
+            dogButton.alpha = 0.4
+            catButton.alpha = 1.0
+        }
+    }
+    
+    func updateLabels(humanText: String, petText: String) {
+        humanLabel.text = humanText
+        petLabel.text = petText
+    }
+    
+    // Show alert to go to settings if access is denied
+    func showSettingAlert(in viewController: UIViewController) {
+        let alert = UIAlertController(
+            title: "Enable Microphone Access",
+            message: "Please allow access to your mircophone to use the app’s features",
+            preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
+            if let url = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            }
+        }))
+        
+        viewController.present(alert, animated: true)
+    }
+
     
     // Update speak button after pressed
     func updateSpeakButton(isRecording: Bool) {

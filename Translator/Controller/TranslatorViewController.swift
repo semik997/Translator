@@ -35,8 +35,7 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     }
     
     func didUpdateLabels(humanText: String, petText: String) {
-        translatorView.humanLabel.text = humanText
-        translatorView.petLabel.text = petText
+        translatorView.updateLabels(humanText: humanText, petText: petText)
     }
     
     // Choise dog image
@@ -53,11 +52,7 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     
     // Start record button is pressed
     func didTapSpeakButton() {
-        if microphoneManager.isCurrentlyRecording() {
-            microphoneManager.stopRecording()
-        } else {
-            microphoneManager.checkMicrophonePermission()
-        }
+        microphoneManager.toggleRecording()
     }
     
     // Update UI when recording starts
@@ -68,7 +63,7 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     // Update UI when recording stops
     func didStopRecording() {
         translatorView.showTranslationProcess {
-            Router.showResultScreen(from: self, with: self.translatorView.petImageView.image, text: self.getTranslatedText())
+            Router.showResultScreen(from: self, with: self.translatorView.petImageView.image, text: TranslationModel.getTranslatedText())
             
         }
         translatorView.updateSpeakButton(isRecording: false)
@@ -82,24 +77,9 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
         
     }
     
-    // Translation examples
-    private func getTranslatedText() -> String {
-        let exampleText = ["Hello", "What are you doing human?", "I'm hungry!!!", "I',m don'n understand you", "I missed you so much, but I don't understand what you're saying, please repeat it.", "Will you continue watching for a long time?"]
-        return exampleText.randomElement() ?? "Something went wrong..."
-    }
-    
-    // Show alert to go to settings if access is denied
+    // Call alert to go to settings if access is denied
     internal func showSettingAlert() {
-        let alert = UIAlertController(title: "Enable Microphone Access", message: "Please allow access to your mircophone to use the app’s features", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        alert.addAction(UIAlertAction(title: "Settings", style: .default, handler: { _ in
-            if let url = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
-        }))
-        
-        present(alert, animated: true)
+        translatorView.showSettingAlert(in: self)
     }
     
 

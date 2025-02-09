@@ -84,4 +84,13 @@ class MicrophoneManager {
         return isRecording
     }
     
+    // Checking the status of the recording
+    func toggleRecording() {
+        if isCurrentlyRecording() {
+            stopRecording()
+        } else {
+            checkMicrophonePermission()
+        }
+    }
+    
 }
