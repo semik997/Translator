@@ -361,14 +361,7 @@ class TranslatorView: UIView {
     }
     
     func showTranslationProcess(completion: @escaping() -> Void) {
-        titleLabel.isHidden = true
-        speakButton.isHidden = true
-        labelStackView.isHidden = true
-        petStackView.isHidden = true
-        dogButton.isHidden = true
-        catButton.isHidden = true
-        speakStackView.isHidden = true
-        
+        hideAllElements()
         let translationLabel = UILabel()
         translationLabel.text = "Process of translation..."
         translationLabel.font = .systemFont(ofSize: 24, weight: .bold)
@@ -382,8 +375,30 @@ class TranslatorView: UIView {
         ])
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            translationLabel.isHidden = true
             completion()
         }
+    }
+    
+    // Show items after returning to home screen
+    func showAllElements() {
+        titleLabel.isHidden = false
+        speakButton.isHidden = false
+        labelStackView.isHidden = false
+        petStackView.isHidden = false
+        dogButton.isHidden = false
+        catButton.isHidden = false
+        speakStackView.isHidden = false
+    }
+    // Hiding elements
+    func hideAllElements() {
+        titleLabel.isHidden = true
+        speakButton.isHidden = true
+        labelStackView.isHidden = true
+        petStackView.isHidden = true
+        dogButton.isHidden = true
+        catButton.isHidden = true
+        speakStackView.isHidden = true
     }
     
     

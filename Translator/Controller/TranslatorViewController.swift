@@ -21,7 +21,11 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
         translatorView.delegate = self
         microphoneManager.delegate = self
         translatorView.updateButtonStates(selectedPet: "dog")
-        overrideUserInterfaceStyle = .light
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        translatorView.showAllElements()
     }
     
     
@@ -78,8 +82,9 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
         
     }
     
+    // Translation examples
     private func getTranslatedText() -> String {
-        let exampleText = ["Hello", "What are you doing human?", "I'm hungry!!!", "I',m don'n understand you"]
+        let exampleText = ["Hello", "What are you doing human?", "I'm hungry!!!", "I',m don'n understand you", "I missed you so much, but I don't understand what you're saying, please repeat it.", "Will you continue watching for a long time?"]
         return exampleText.randomElement() ?? "Something went wrong..."
     }
     

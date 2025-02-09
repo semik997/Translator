@@ -25,15 +25,26 @@ class ResultView: UIView {
         return imageView
     }()
     
+    let bubbleImageView: UIImageView = {
+        let imageView = UIImageView()
+        let bubbleImage = UIImage(systemName: "bubble.middle.bottom.fill")?.withRenderingMode(.alwaysTemplate)
+        imageView.image = bubbleImage
+        imageView.tintColor = UIColor(hex: "#D6DCFF")
+        imageView.contentMode = .scaleToFill
+        imageView.clipsToBounds = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     let dialogBox: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.systemFont(ofSize: 18)
+        textView.backgroundColor = .clear
         textView.textAlignment = .center
-        textView.layer.cornerRadius = 12
-        textView.layer.borderColor = UIColor.systemGray.cgColor
-        textView.layer.borderWidth = 2
+        textView.isScrollEnabled = false
         textView.isEditable = false
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textContainerInset = UIEdgeInsets(top: 80, left: 20, bottom: 80, right: 20)
         return textView
     }()
     
@@ -53,27 +64,37 @@ class ResultView: UIView {
         setupUI()
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setGradientBackground()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     private func setupUI() {
-        setGradientBackground()
         addSubview(titleLabel)
-        addSubview(animalImageView)
+        addSubview(bubbleImageView)
         addSubview(dialogBox)
+        addSubview(animalImageView)
         addSubview(retryButton)
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 20),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            dialogBox.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
-            dialogBox.centerXAnchor.constraint(equalTo: centerXAnchor),
-            dialogBox.widthAnchor.constraint(equalToConstant: 291),
-            dialogBox.heightAnchor.constraint(equalToConstant: 142),
+            bubbleImageView.topAnchor.constraint(equalTo: topAnchor, constant: 229),
+            bubbleImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            bubbleImageView.widthAnchor.constraint(equalToConstant: 350),
+            bubbleImageView.heightAnchor.constraint(equalToConstant: 250),
             
-            animalImageView.topAnchor.constraint(equalTo: dialogBox.bottomAnchor, constant: 30),
+            dialogBox.centerXAnchor.constraint(equalTo: bubbleImageView.centerXAnchor),
+            dialogBox.centerYAnchor.constraint(equalTo: bubbleImageView.centerYAnchor),
+            dialogBox.widthAnchor.constraint(equalTo: bubbleImageView.widthAnchor, constant: -30),
+            dialogBox.heightAnchor.constraint(equalTo: bubbleImageView.heightAnchor, constant: -30),
+            
+            animalImageView.topAnchor.constraint(equalTo: topAnchor, constant: 496),
             animalImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             animalImageView.widthAnchor.constraint(equalToConstant: 184),
             animalImageView.heightAnchor.constraint(equalToConstant: 184),
