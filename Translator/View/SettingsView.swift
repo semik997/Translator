@@ -65,7 +65,7 @@ class SettingsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
     private let settingsButton: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "gear")
+        config.image = UIImage(systemName: "gearshape")
         config.imagePlacement = .top
         config.imagePadding = 10
         config.baseForegroundColor = .black

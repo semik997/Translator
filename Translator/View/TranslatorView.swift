@@ -45,6 +45,7 @@ class TranslatorView: UIView {
     let petLabel: UILabel = {
         let label = UILabel()
         label.text = "PET"
+        label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +55,6 @@ class TranslatorView: UIView {
     private let arrowsButton: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
-        config.title = "⇆"
         config.baseForegroundColor = .black
         config.attributedTitle = AttributedString("⇆", attributes: AttributeContainer([.font: UIFont.systemFont(ofSize: 30)]))
         button.configuration = config
@@ -68,6 +68,7 @@ class TranslatorView: UIView {
         stackView.axis = .horizontal
         stackView.spacing = 16
         stackView.alignment = .center
+        stackView.distribution = .equalSpacing
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     } ()
@@ -145,7 +146,7 @@ class TranslatorView: UIView {
     private let settingsButton: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(systemName: "gear")
+        config.image = UIImage(systemName: "gearshape")
         config.imagePlacement = .top
         config.imagePadding = 10
         config.baseForegroundColor = .black
@@ -247,13 +248,18 @@ class TranslatorView: UIView {
     // Constraints settting
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 10),
+            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            humanLabel.widthAnchor.constraint(equalToConstant: 135),
+            petLabel.widthAnchor.constraint(equalToConstant: 135),
+            arrowsButton.widthAnchor.constraint(equalToConstant: 24),
+            arrowsButton.heightAnchor.constraint(equalToConstant: 24),
             
             labelStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
             labelStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
-            speakStackView.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 30),
+            speakStackView.topAnchor.constraint(equalTo: labelStackView.bottomAnchor, constant: 70),
             speakStackView.centerXAnchor.constraint(equalTo: centerXAnchor),
             speakStackView.widthAnchor.constraint(equalToConstant: 320),
             speakStackView.heightAnchor.constraint(equalToConstant: 176),
