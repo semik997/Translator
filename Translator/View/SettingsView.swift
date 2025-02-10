@@ -8,33 +8,14 @@
 import UIKit
 
 protocol SettingsViewDelegate: AnyObject {
-    func didSelectOption(_ option: String)
     func didTapMainButton()
 }
 
-class SettingsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class SettingsView: UIView {
     
     weak var delegate: SettingsViewDelegate?
     
-    private let settingsOptions = [
-        "Rate Us",
-        "Share App",
-        "Contact Us",
-        "Restore Purchase",
-        "Privacy Policy",
-        "Terms of Use"
-    ]
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Settings"
-        label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let collectionView: UICollectionView = {
+    public private(set) var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
         layout.minimumLineSpacing = 15
@@ -46,6 +27,16 @@ class SettingsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Settings"
+        label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     
     // Bottom Buttons
     private let mainButton: UIButton = {
@@ -90,24 +81,21 @@ class SettingsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         super .init(frame: UIScreen.main.bounds)
         setupUI()
         setupConstraints()
-        setGradientBackground()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setGradientBackground()
+    }
+    
     private func setupUI() {
         addSubview(titleLabel)
         addSubview(collectionView)
         addSubview(bottomStackView)
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(SettingsCollectionViewCell.self, forCellWithReuseIdentifier: "SettingsCell")
-        
-        bottomStackView.addArrangedSubview(mainButton)
-        bottomStackView.addArrangedSubview(settingsButton)
         
         mainButton.addTarget(self, action: #selector(mainButtonTapped), for: .touchUpInside)
         
@@ -150,21 +138,5 @@ class SettingsView: UIView, UICollectionViewDelegate, UICollectionViewDataSource
         delegate?.didTapMainButton()
     }
     
-    // MARK: - UICollectionViewDataSource
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return settingsOptions.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "SettingsCell", for: indexPath) as! SettingsCollectionViewCell
-        cell.configure(with: settingsOptions[indexPath.row])
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.didSelectOption(settingsOptions[indexPath.row])
-    }
-
 
 }
