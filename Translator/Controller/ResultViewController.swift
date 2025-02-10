@@ -9,10 +9,9 @@ import UIKit
 
 class ResultViewController: UIViewController, ResultViewDelegate {
     
+    private let resultView = ResultView()
     var selectedAnimalImage: UIImage?
     var translatedText: String?
-    
-    private let resultView = ResultView()
     
     override func loadView() {
         view = resultView
@@ -24,7 +23,6 @@ class ResultViewController: UIViewController, ResultViewDelegate {
         resultView.retryButton.addTarget(self, action: #selector(navigateToMainScreen), for: .touchUpInside)
         setupCustomBackButton()
         setupNavigationTitle()
-        
     }
     
     private func setupCustomBackButton() {

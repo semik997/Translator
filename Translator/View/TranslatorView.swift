@@ -21,36 +21,15 @@ class TranslatorView: UIView {
     
     weak var delegate: TranslatorViewDelegate?
     
-    // Title Label
-    let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Translator"
-        label.font = UIFont.boldSystemFont(ofSize: 32)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
     
-    // Human and Pet labels
-    let humanLabel: UILabel = {
-        let label = UILabel()
-        label.text = "HUMAN"
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // MARK: - Create UI elements
+
+    private let catBackgroundView = UIView()
+    private let dogBackgroundView = UIView()
     
-    
-    let petLabel: UILabel = {
-        let label = UILabel()
-        label.text = "PET"
-        label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    } ()
-    
+    private let petSwitchView = UIView()
+    private var petStackView = UIStackView()
+    private let speakStackView = UIStackView()
     
     private let arrowsButton: UIButton = {
         let button = UIButton(type: .system)
@@ -62,7 +41,6 @@ class TranslatorView: UIView {
         return button
     }()
     
-    
     private lazy var labelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [humanLabel, arrowsButton, petLabel])
         stackView.axis = .horizontal
@@ -73,8 +51,6 @@ class TranslatorView: UIView {
         return stackView
     } ()
     
-    
-    // Start speak button
     private let speakButton: UIButton = {
         let button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
@@ -96,8 +72,6 @@ class TranslatorView: UIView {
         return button
     }()
     
-    
-    // Choice animals buttons
     private let catButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "cat.png")?.withRenderingMode(.alwaysOriginal), for: .normal)
@@ -114,22 +88,8 @@ class TranslatorView: UIView {
         return button
     }()
     
-    private let catBackgroundView = UIView()
-    private let dogBackgroundView = UIView()
     
-    private let petSwitchView = UIView()
-    private var petStackView = UIStackView()
-    private let speakStackView = UIStackView()
     
-    let petImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "dog.png")
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-    
-    // Bottom Buttons
     private let mainButton: UIButton = {
         var button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
@@ -168,16 +128,54 @@ class TranslatorView: UIView {
         return stackView
     }()
     
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Translator"
+        label.font = UIFont.boldSystemFont(ofSize: 32)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let humanLabel: UILabel = {
+        let label = UILabel()
+        label.text = "HUMAN"
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let petLabel: UILabel = {
+        let label = UILabel()
+        label.text = "PET"
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    } ()
+    
+    let petImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "dog.png")
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
-        
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        setGradientBackground(topColor: Constants.UI.gradientTopColor, bottomColor: Constants.UI.gradientBottomColor)
     }
     
     // UI Setting
@@ -188,7 +186,7 @@ class TranslatorView: UIView {
         addSubview(speakStackView)
         addSubview(petImageView)
         addSubview(bottomStackView)
-        setGradientBackground()
+        setGradientBackground(topColor: Constants.UI.gradientTopColor, bottomColor: Constants.UI.gradientBottomColor)
         
         arrowsButton.addTarget(self, action: #selector(switchButtonTapped), for: .touchUpInside)
         speakButton.addTarget(self, action: #selector(speakButtonTapped), for: .touchUpInside)
@@ -238,11 +236,6 @@ class TranslatorView: UIView {
         
         petImageView.contentMode = .scaleAspectFit
         petImageView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        setGradientBackground()
     }
     
     // Constraints settting
@@ -311,6 +304,8 @@ class TranslatorView: UIView {
         ])
     }
     
+    // MARK: - Funcs
+    
     @objc private func switchButtonTapped() {
         delegate?.didTapSwitchButton()
     }
@@ -335,21 +330,7 @@ class TranslatorView: UIView {
         delegate?.didTapSettingButton()
     }
     
-    // Setup background
-    func setGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        
-        gradientLayer.colors = [UIColor(hex: "#F3F5F6", alpha: 1).cgColor,
-                                UIColor(hex: "#C9FFE0", alpha: 1).cgColor]
-        
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
-        gradientLayer.frame = self.bounds
-        
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
-    // Shade of your pet's choice
+    // Shade of pet's choice
     func updateButtonStates(selectedPet: String) {
         if selectedPet == "dog" {
             dogButton.alpha = 1.0
@@ -378,10 +359,8 @@ class TranslatorView: UIView {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }
         }))
-        
         viewController.present(alert, animated: true)
     }
-    
     
     // Update speak button after pressed
     func updateSpeakButton(isRecording: Bool) {

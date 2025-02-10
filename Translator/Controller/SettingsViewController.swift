@@ -17,8 +17,8 @@ class SettingsViewController: UIViewController, SettingsViewDelegate, UICollecti
         "Privacy Policy",
         "Terms of Use"
     ]
-    
     private let settingsView = SettingsView()
+    
     
     override func loadView() {
         view = settingsView
@@ -26,13 +26,13 @@ class SettingsViewController: UIViewController, SettingsViewDelegate, UICollecti
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         settingsView.delegate = self
         settingsView.collectionView.delegate = self
         settingsView.collectionView.dataSource = self
         settingsView.collectionView.register(SettingsCollectionViewCell.self, forCellWithReuseIdentifier: "SettingsCell")
     }
     
+    // Back to main screen
     func didTapMainButton() {
         dismiss(animated: true, completion: nil)
     }

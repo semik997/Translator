@@ -19,20 +19,6 @@ class MicrophoneManager {
     private var audioRecorder: AVAudioRecorder?
     private var isRecording = false
     
-    // Check microphone access
-    func checkMicrophonePermission() {
-        switch AVAudioApplication.shared.recordPermission {
-        case .undetermined:
-            requestMicrophonePermission()
-        case .denied:
-            delegate?.showSettingAlert()
-        case .granted:
-            startRecording()
-        @unknown default:
-            fatalError("Unhandled microphone permission state")
-        }
-    }
-    
     // Request microphone access
     private func requestMicrophonePermission() {
         AVAudioApplication.requestRecordPermission { [weak self] granted in
@@ -45,7 +31,7 @@ class MicrophoneManager {
             }
         }
     }
-
+    
     // Start recording
     private func startRecording() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -69,6 +55,20 @@ class MicrophoneManager {
             print("Recording started")
         } catch {
             print("Error starting recording: \(error.localizedDescription)")
+        }
+    }
+    
+    // Check microphone access
+    func checkMicrophonePermission() {
+        switch AVAudioApplication.shared.recordPermission {
+        case .undetermined:
+            requestMicrophonePermission()
+        case .denied:
+            delegate?.showSettingAlert()
+        case .granted:
+            startRecording()
+        @unknown default:
+            fatalError("Unhandled microphone permission state")
         }
     }
     

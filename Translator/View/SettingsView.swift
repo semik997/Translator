@@ -15,6 +15,7 @@ class SettingsView: UIView {
     
     weak var delegate: SettingsViewDelegate?
     
+    // MARK: - Create UI elements
     public private(set) var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -37,8 +38,6 @@ class SettingsView: UIView {
         return label
     }()
     
-    
-    // Bottom Buttons
     private let mainButton: UIButton = {
         var button = UIButton(type: .system)
         var config = UIButton.Configuration.plain()
@@ -89,7 +88,7 @@ class SettingsView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setGradientBackground()
+        setGradientBackground(topColor: Constants.UI.gradientTopColor, bottomColor: Constants.UI.gradientBottomColor)
     }
     
     private func setupUI() {
@@ -120,19 +119,7 @@ class SettingsView: UIView {
         ])
     }
     
-    // Setup background
-    func setGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        
-        gradientLayer.colors = [UIColor(hex: "#F3F5F6", alpha: 1).cgColor,
-                                UIColor(hex: "#C9FFE0", alpha: 1).cgColor]
-        
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
-        gradientLayer.frame = self.bounds
-        
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
+    // MARK: - Funcs
     
     @objc private func mainButtonTapped() {
         delegate?.didTapMainButton()

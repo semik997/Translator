@@ -10,7 +10,6 @@ import UIKit
 class Router {
     
     static func showResultScreen(from viewController: UIViewController, with image: UIImage?, text: String?) {
-        
         let resultVC = ResultViewController()
         resultVC.selectedAnimalImage = image
         resultVC.translatedText = text
@@ -18,7 +17,6 @@ class Router {
     }
     
     static func showSettings(from viewController: UIViewController) {
-        
         let settingsVC = SettingsViewController()
         settingsVC.modalPresentationStyle = .overFullScreen
         settingsVC.modalTransitionStyle = .coverVertical

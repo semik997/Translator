@@ -15,8 +15,10 @@ class ResultView: UIView {
     
     weak var delegate: ResultViewDelegate?
     
+    // MARK: - Create UI elements
+    
     let animalImageView: UIImageView = {
-       let imageView = UIImageView()
+        let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
@@ -64,7 +66,7 @@ class ResultView: UIView {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
+    
     override init(frame: CGRect) {
         super .init(frame: frame)
         setupUI()
@@ -72,7 +74,7 @@ class ResultView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        setGradientBackground()
+        setGradientBackground(topColor: Constants.UI.gradientTopColor, bottomColor: Constants.UI.gradientBottomColor)
     }
     
     required init?(coder: NSCoder) {
@@ -112,7 +114,9 @@ class ResultView: UIView {
             
         ])
     }
-
+    
+    // MARK: - Funcs
+    
     func updateView(with image: UIImage?, text: String?) {
         animalImageView.image = image
         if let text = text {
@@ -123,20 +127,7 @@ class ResultView: UIView {
         }
     }
     
-    
-    func setGradientBackground() {
-        let gradientLayer = CAGradientLayer()
-        
-        gradientLayer.colors = [UIColor(hex: "#F3F5F6", alpha: 1).cgColor,
-                                UIColor(hex: "#C9FFE0", alpha: 1).cgColor]
-        
-        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
-        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
-        gradientLayer.frame = self.bounds
-        
-        self.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
+    // Showing the retry button
     @objc private func textViewTapped() {
         dialogBox.isHidden = true
         bubbleImageView.isHidden = true

@@ -29,11 +29,12 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     }
     
     
-    // Swapped pet and human label
+    // Swapped pet and human labels
     func didTapSwitchButton() {
         switchManager.toggleSwitch()
     }
     
+    // Update pet and human labels
     func didUpdateLabels(humanText: String, petText: String) {
         translatorView.updateLabels(humanText: humanText, petText: petText)
     }
@@ -64,15 +65,16 @@ class TranslatorViewController: UIViewController, SwitchManagerDelegate, Transla
     func didStopRecording() {
         translatorView.showTranslationProcess {
             Router.showResultScreen(from: self, with: self.translatorView.petImageView.image, text: TranslationModel.getTranslatedText())
-            
         }
         translatorView.updateSpeakButton(isRecording: false)
     }
     
+    // Update main screen
     func didTapMainButton() {
-        
+        viewWillAppear(true)
     }
     
+    // Open Settings screen
     func didTapSettingButton() {
         Router.showSettings(from: self)
     }

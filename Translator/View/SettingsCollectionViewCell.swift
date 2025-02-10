@@ -9,6 +9,8 @@ import UIKit
 
 class SettingsCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Create UI elements
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
@@ -53,6 +55,8 @@ class SettingsCollectionViewCell: UICollectionViewCell {
             arrowImageView.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
+    
+    // MARK: - Funcs
     
     func configure(with text: String) {
         titleLabel.text = text
